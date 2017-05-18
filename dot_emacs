@@ -9,6 +9,7 @@
    (quote
     (color-theme
      cmake-mode
+     dracula-theme
      dockerfile-mode
      protobuf-mode
      json-mode)))
@@ -43,12 +44,14 @@
     (whitespace-cleanup)
     (indent-region (point-min) (point-max))))
 
+;; Key bindings
 (global-set-key (kbd "<f2>") 'clean-white-space)
 
 ;; Update associations with major modes
-(add-to-list 'auto-mode-alist '("*Dockerfile*\\'"     . 'dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\.cmake\\'"         . 'cmake-mode))
-(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . 'cmake-mode))
-(add-to-list 'auto-mode-alist '("\\.proto\\'"         . 'protobuf-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'"          . 'json-mode))
+(add-to-list 'auto-mode-alist '("*Dockerfile*\\'"     . dockerfile-mode))
+(add-to-list 'auto-mode-alist '("\\.cmake\\'"         . cmake-mode))
+(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . cmake-mode))
+(add-to-list 'auto-mode-alist '("\\.proto\\'"         . protobuf-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'"          . json-mode))
 
+(load-theme 'tango-dark t)
