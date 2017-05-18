@@ -1,42 +1,39 @@
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+;; Initialize package system
 (package-initialize)
 
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ))
-
-(delete-selection-mode)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("org" . "http://orgmode.org/elpa/"))
+(setq my-packages
    (quote
-    (color-theme cmake-project cmake-mode dockerfile-mode protobuf-mode))))
+    (color-theme
+     cmake-mode
+     dockerfile-mode
+     protobuf-mode
+     json-mode)))
 
 
-(require 'cmake-mode)
-(require 'dockerfile-mode)
-(require 'protobuf-mode)
+;; Install any packages in my-packages, if they are not installed already
+(let ((refreshed nil))
+  (when (not package-archive-contents)
+    (package-refresh-contents)
+    (setq refreshed t))
+  (dolist (pkg my-packages)
+    (when (and (not (package-installed-p pkg))
+               (assoc pkg package-archive-contents))
+      (unless refreshed
+        (package-refresh-contents)
+        (setq refreshed t))
+      (message "Installing package `%s'" pkg)
+      (package-install pkg))))
 
-(add-to-list 'auto-mode-alist '("*Dockerfile*\\'" . 'dockerfile-mode))
-(add-to-list 'auto-mode-alist '("\\.cmake\\'" . 'cmake-mode))
-(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . 'cmake-mode))
-(add-to-list 'auto-mode-alist '("\\.proto\\'" . 'protobuf-mode))
-
+;; Tab stops at 4 spaces, use spaces instead of tabs, files end with new line
 (setq-default indent-tabs-mode nil)
+(setq-default require-final-newline 'visit-save)
 (setq tab-width 4)
 
+;; No, really, cleanup the whitespace
 (defun clean-white-space()
   "Select the entire buffer, then untabify and whitespace cleanup"
   (interactive)
@@ -47,4 +44,11 @@
     (indent-region (point-min) (point-max))))
 
 (global-set-key (kbd "<f2>") 'clean-white-space)
+
+;; Update associations with major modes
+(add-to-list 'auto-mode-alist '("*Dockerfile*\\'"     . 'dockerfile-mode))
+(add-to-list 'auto-mode-alist '("\\.cmake\\'"         . 'cmake-mode))
+(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . 'cmake-mode))
+(add-to-list 'auto-mode-alist '("\\.proto\\'"         . 'protobuf-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'"          . 'json-mode))
 
