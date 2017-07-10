@@ -12,6 +12,7 @@
      dracula-theme
      dockerfile-mode
      protobuf-mode
+     graphviz-dot-mode
      json-mode)))
 
 
@@ -53,5 +54,20 @@
 (add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . cmake-mode))
 (add-to-list 'auto-mode-alist '("\\.proto\\'"         . protobuf-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'"          . json-mode))
+(add-to-list 'auto-mode-alist '("\\.dot\\'"           . graphviz-dot-mode))
 
 (load-theme 'tango-dark t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (graphviz-dot-mode csv-mode protobuf-mode json-mode dockerfile-mode color-theme cmake-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
